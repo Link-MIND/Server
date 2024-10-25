@@ -1,4 +1,4 @@
-package com.app.toaster.config;
+package com.app.toaster.common.config;
 
 import java.util.List;
 

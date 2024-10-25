@@ -1,9 +1,9 @@
 package com.app.toaster.toast.controller.request;
 
-import com.app.toaster.controller.valid.Severity;
-import com.app.toaster.controller.valid.TitleValid;
+import com.app.toaster.utils.valid.Severity;
+import com.app.toaster.utils.valid.TitleValid;
 
-import com.app.toaster.controller.valid.marker.ToastValidationGroup;
+import com.app.toaster.utils.valid.marker.ToastValidationGroup;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateToastDto(Long toastId, @TitleValid(payload = Severity.Error.class, groups = {ToastValidationGroup.class}) @NotNull String title) {

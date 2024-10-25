@@ -1,6 +1,6 @@
-package com.app.toaster.controller.valid;
+package com.app.toaster.utils.valid;
 
-import com.app.toaster.controller.valid.marker.ToastValidationGroup;
+import com.app.toaster.utils.valid.marker.ToastValidationGroup;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

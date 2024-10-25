@@ -1,4 +1,4 @@
-package com.app.toaster.config.jwt;
+package com.app.toaster.common.config.jwt;
 
 
 import static io.jsonwebtoken.Jwts.*;

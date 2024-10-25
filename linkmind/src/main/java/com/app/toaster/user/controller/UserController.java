@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.toaster.common.dto.ApiResponse;
-import com.app.toaster.config.UserId;
+import com.app.toaster.common.config.UserId;
 import com.app.toaster.user.controller.request.UpdateAllowedPush;
 import com.app.toaster.exception.Success;
 import com.app.toaster.user.service.UserService;

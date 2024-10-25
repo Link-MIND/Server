@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import com.app.toaster.config.jwt.JwtService;
+import com.app.toaster.common.config.jwt.JwtService;
 import com.app.toaster.auth.controller.request.SignInRequestDto;
 import com.app.toaster.auth.controller.response.SignInResponseDto;
 import com.app.toaster.auth.controller.response.TokenHealthDto;

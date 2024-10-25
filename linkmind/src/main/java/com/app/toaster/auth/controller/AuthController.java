@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.toaster.common.dto.ApiResponse;
 // import com.app.toaster.config.UserId;
-import com.app.toaster.config.UserId;
+import com.app.toaster.common.config.UserId;
 import com.app.toaster.auth.controller.request.SignInRequestDto;
 import com.app.toaster.auth.controller.response.SignInResponseDto;
 import com.app.toaster.auth.controller.response.TokenHealthDto;

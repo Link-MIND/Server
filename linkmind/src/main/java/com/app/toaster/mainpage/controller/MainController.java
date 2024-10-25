@@ -1,10 +1,10 @@
 package com.app.toaster.mainpage.controller;
 
-import com.app.toaster.config.UserId;
+import com.app.toaster.common.config.UserId;
 import org.springframework.web.bind.annotation.*;
 
 import com.app.toaster.common.dto.ApiResponse;
-import com.app.toaster.controller.valid.TitleValid;
+import com.app.toaster.utils.valid.TitleValid;
 import com.app.toaster.search.service.SearchService;
 
 import lombok.RequiredArgsConstructor;

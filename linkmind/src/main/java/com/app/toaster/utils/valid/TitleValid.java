@@ -1,10 +1,9 @@
-package com.app.toaster.controller.valid;
+package com.app.toaster.utils.valid;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.util.ArrayList;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -1,7 +1,7 @@
 package com.app.toaster.timer.controller;
 
 import com.app.toaster.common.dto.ApiResponse;
-import com.app.toaster.config.UserId;
+import com.app.toaster.common.config.UserId;
 import com.app.toaster.timer.controller.request.CreateTimerRequestDto;
 import com.app.toaster.timer.controller.request.UpdateTimerCommentDto;
 import com.app.toaster.timer.controller.request.UpdateTimerDateTimeDto;

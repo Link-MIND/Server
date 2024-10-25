@@ -1,4 +1,4 @@
-package com.app.toaster.controller.valid;
+package com.app.toaster.utils.valid;
 
 import jakarta.validation.Payload;
 

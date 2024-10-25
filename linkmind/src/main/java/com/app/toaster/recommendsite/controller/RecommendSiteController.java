@@ -1,7 +1,7 @@
 package com.app.toaster.recommendsite.controller;
 
 import com.app.toaster.common.dto.ApiResponse;
-import com.app.toaster.config.UserId;
+import com.app.toaster.common.config.UserId;
 import com.app.toaster.recommendsite.domain.RecommendSite;
 import com.app.toaster.exception.Success;
 import com.app.toaster.recommendsite.service.RecommendSiteService;

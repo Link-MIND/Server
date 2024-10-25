@@ -1,7 +1,7 @@
 package com.app.toaster.category.controller.request;
 
-import com.app.toaster.controller.valid.Severity;
-import com.app.toaster.controller.valid.TitleValid;
+import com.app.toaster.utils.valid.Severity;
+import com.app.toaster.utils.valid.TitleValid;
 import jakarta.validation.constraints.NotNull;
 
 public record ChangeCateoryTitleDto(
