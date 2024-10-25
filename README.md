@@ -1,5 +1,6 @@
 # TOASTER-SERVER
-![Frame 31](https://github.com/Link-MIND/TOASTER-Server/assets/92644651/c88432e0-5cb3-423f-9986-137fa4dfd5e1)
+![image](https://github.com/user-attachments/assets/627ffad2-6206-4c96-bfce-7ae7574b3237)
+
 
 더 이상 **링크**를 태우지 마세요. **토스트 먹듯이 간단하게!**
 
@@ -33,7 +34,8 @@
 
 
 ## 📦 ERD
-<img width="780" alt="스크린샷 2024-01-19 오후 10 31 57" src="https://github.com/Link-MIND/TOASTER-Server/assets/92644651/c641f995-92b3-41fb-9e29-19b4062cad14">
+![image](https://github.com/user-attachments/assets/46eed52a-e4bb-4001-9d6d-20246ca4ad1b)
+
 
 <br><br>
 
