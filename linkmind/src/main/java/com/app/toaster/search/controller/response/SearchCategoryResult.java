@@ -1,4 +1,4 @@
-package com.app.toaster.controller.response.search;
+package com.app.toaster.search.controller.response;
 
 import java.util.List;
 

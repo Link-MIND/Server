@@ -12,7 +12,7 @@ import com.app.toaster.controller.valid.Severity;
 import com.app.toaster.controller.valid.TitleValid;
 import com.app.toaster.exception.Success;
 import com.app.toaster.category.service.CategoryService;
-import com.app.toaster.service.search.SearchService;
+import com.app.toaster.search.service.SearchService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;

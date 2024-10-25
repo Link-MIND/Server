@@ -1,4 +1,4 @@
-package com.app.toaster.controller.response.search;
+package com.app.toaster.search.controller.response;
 
 public record ToastResult(Long toastId, String title) {
 	public static ToastResult of(Long toastId, String title){

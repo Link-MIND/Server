@@ -3,7 +3,7 @@ package com.app.toaster.user.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.app.toaster.controller.response.main.MainPageResponseDto;
+import com.app.toaster.mainpage.controller.response.MainPageResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;

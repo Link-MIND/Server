@@ -1,4 +1,4 @@
-package com.app.toaster.controller.response.main;
+package com.app.toaster.mainpage.controller.response;
 
 import com.app.toaster.category.controller.response.CategoryResponse;
 

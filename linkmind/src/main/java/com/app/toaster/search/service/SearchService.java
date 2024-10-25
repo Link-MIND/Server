@@ -1,4 +1,4 @@
-package com.app.toaster.service.search;
+package com.app.toaster.search.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.toaster.common.dto.ApiResponse;
-import com.app.toaster.controller.response.search.CategoryResult;
-import com.app.toaster.controller.response.search.SearchMainResult;
+import com.app.toaster.search.controller.response.CategoryResult;
+import com.app.toaster.search.controller.response.SearchMainResult;
 import com.app.toaster.toast.controller.response.ToastDto;
 import com.app.toaster.category.domain.Category;
 import com.app.toaster.toast.domain.Toast;

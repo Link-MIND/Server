@@ -1,7 +1,7 @@
 package com.app.toaster.user.service;
 
 import com.app.toaster.category.controller.response.CategoryResponse;
-import com.app.toaster.controller.response.main.MainPageResponseDto;
+import com.app.toaster.mainpage.controller.response.MainPageResponseDto;
 import com.app.toaster.category.domain.Category;
 import com.app.toaster.category.infrastructure.CategoryRepository;
 
