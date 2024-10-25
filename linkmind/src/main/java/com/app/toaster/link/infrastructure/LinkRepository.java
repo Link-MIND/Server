@@ -1,13 +1,10 @@
-package com.app.toaster.infrastructure;
+package com.app.toaster.link.infrastructure;
 
-import com.app.toaster.domain.Category;
-import com.app.toaster.domain.Link;
-import com.app.toaster.domain.User;
+import com.app.toaster.link.domain.Link;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository

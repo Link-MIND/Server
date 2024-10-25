@@ -1,8 +1,8 @@
-package com.app.toaster.service.link;
+package com.app.toaster.link.service;
 
 import com.app.toaster.toast.controller.response.WeekLinkDto;
-import com.app.toaster.domain.Link;
-import com.app.toaster.infrastructure.LinkRepository;
+import com.app.toaster.link.domain.Link;
+import com.app.toaster.link.infrastructure.LinkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

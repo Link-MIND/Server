@@ -3,7 +3,7 @@ package com.app.toaster.toast.controller;
 import java.io.IOException;
 import java.util.List;
 
-import com.app.toaster.service.link.LinkService;
+import com.app.toaster.link.service.LinkService;
 import com.app.toaster.toast.controller.request.*;
 import com.app.toaster.toast.controller.response.*;
 import org.springframework.http.HttpStatus;

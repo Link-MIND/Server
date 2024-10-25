@@ -1,4 +1,4 @@
-package com.app.toaster.domain;
+package com.app.toaster.link.domain;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
