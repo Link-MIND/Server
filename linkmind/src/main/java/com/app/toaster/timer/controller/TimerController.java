@@ -1,23 +1,16 @@
-package com.app.toaster.controller;
+package com.app.toaster.timer.controller;
 
 import com.app.toaster.common.dto.ApiResponse;
 import com.app.toaster.config.UserId;
-import com.app.toaster.controller.request.timer.CreateTimerRequestDto;
-import com.app.toaster.controller.request.timer.UpdateTimerCommentDto;
-import com.app.toaster.controller.request.timer.UpdateTimerDateTimeDto;
-import com.app.toaster.controller.response.timer.GetTimerResponseDto;
-import com.app.toaster.exception.Error;
+import com.app.toaster.timer.controller.request.CreateTimerRequestDto;
+import com.app.toaster.timer.controller.request.UpdateTimerCommentDto;
+import com.app.toaster.timer.controller.request.UpdateTimerDateTimeDto;
+import com.app.toaster.timer.controller.response.GetTimerResponseDto;
 import com.app.toaster.exception.Success;
-import com.app.toaster.exception.model.CustomException;
 import com.app.toaster.service.timer.TimerService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor

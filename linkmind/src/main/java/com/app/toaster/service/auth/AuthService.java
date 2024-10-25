@@ -1,13 +1,10 @@
 package com.app.toaster.service.auth;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.WebRequest;
 
 
 import com.app.toaster.config.jwt.JwtService;
@@ -18,17 +15,15 @@ import com.app.toaster.controller.response.auth.TokenResponseDto;
 import com.app.toaster.domain.SocialType;
 import com.app.toaster.domain.User;
 import com.app.toaster.exception.Error;
-import com.app.toaster.exception.Success;
 import com.app.toaster.exception.model.CustomException;
 import com.app.toaster.exception.model.NotFoundException;
 import com.app.toaster.exception.model.UnprocessableEntityException;
-import com.app.toaster.external.client.discord.DiscordMessage;
 import com.app.toaster.external.client.discord.DiscordMessageProvider;
 import com.app.toaster.external.client.discord.NotificationDto;
 import com.app.toaster.external.client.discord.NotificationType;
 import com.app.toaster.external.client.slack.SlackApi;
 import com.app.toaster.infrastructure.CategoryRepository;
-import com.app.toaster.infrastructure.TimerRepository;
+import com.app.toaster.timer.infrastructure.TimerRepository;
 import com.app.toaster.toast.infrastructure.ToastRepository;
 import com.app.toaster.infrastructure.UserRepository;
 import com.app.toaster.popup.infrastructure.PopupManagerRepository;

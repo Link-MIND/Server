@@ -1,12 +1,8 @@
-package com.app.toaster.controller.response.timer;
+package com.app.toaster.timer.controller.response;
 
-import com.app.toaster.controller.response.search.CategoryResult;
-import com.app.toaster.controller.response.search.SearchMainResult;
-import com.app.toaster.controller.response.search.ToastResult;
-import com.app.toaster.domain.Reminder;
+import com.app.toaster.timer.domain.Reminder;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public record GetTimerResponseDto (String categoryName,
                                        String remindTime,

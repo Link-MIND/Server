@@ -8,7 +8,7 @@ import com.app.toaster.toast.controller.response.ToastFilter;
 import com.app.toaster.controller.response.category.CategoryResponse;
 import com.app.toaster.controller.response.category.GetCategoryResponseDto;
 import com.app.toaster.domain.Category;
-import com.app.toaster.domain.Reminder;
+import com.app.toaster.timer.domain.Reminder;
 import com.app.toaster.toast.domain.Toast;
 import com.app.toaster.domain.User;
 import com.app.toaster.exception.Error;
@@ -16,7 +16,7 @@ import com.app.toaster.exception.model.BadRequestException;
 import com.app.toaster.exception.model.CustomException;
 import com.app.toaster.exception.model.NotFoundException;
 import com.app.toaster.infrastructure.CategoryRepository;
-import com.app.toaster.infrastructure.TimerRepository;
+import com.app.toaster.timer.infrastructure.TimerRepository;
 import com.app.toaster.toast.infrastructure.ToastRepository;
 import com.app.toaster.infrastructure.UserRepository;
 

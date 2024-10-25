@@ -1,4 +1,4 @@
-package com.app.toaster.controller.request.timer;
+package com.app.toaster.timer.controller.request;
 
 import java.util.ArrayList;
 

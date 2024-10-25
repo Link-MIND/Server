@@ -1,4 +1,4 @@
-package com.app.toaster.controller.response.timer;
+package com.app.toaster.timer.controller.response;
 
 import lombok.Builder;
 

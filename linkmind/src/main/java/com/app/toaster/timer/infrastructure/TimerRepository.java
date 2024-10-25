@@ -1,17 +1,15 @@
-package com.app.toaster.infrastructure;
+package com.app.toaster.timer.infrastructure;
 
 import com.app.toaster.domain.Category;
-import com.app.toaster.domain.Reminder;
+import com.app.toaster.timer.domain.Reminder;
 import com.app.toaster.domain.User;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.List;
+
 @Repository
 public interface TimerRepository extends JpaRepository<Reminder, Long> {
 
