@@ -1,12 +1,10 @@
-package com.app.toaster.domain;
+package com.app.toaster.recommendsite.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 
 @Getter

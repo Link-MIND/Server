@@ -1,4 +1,4 @@
-package com.app.toaster.service.timer;
+package com.app.toaster.timer.service;
 
 import com.app.toaster.timer.controller.request.CreateTimerRequestDto;
 import com.app.toaster.timer.controller.request.UpdateTimerCommentDto;

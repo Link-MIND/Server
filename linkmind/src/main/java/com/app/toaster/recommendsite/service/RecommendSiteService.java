@@ -1,12 +1,10 @@
-package com.app.toaster.service.recommendSite;
+package com.app.toaster.recommendsite.service;
 
-import com.app.toaster.domain.RecommendSite;
-import com.app.toaster.infrastructure.RecommedSiteRepository;
-import com.app.toaster.infrastructure.UserRepository;
+import com.app.toaster.recommendsite.domain.RecommendSite;
+import com.app.toaster.recommendsite.infrastructure.RecommedSiteRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

@@ -1,11 +1,8 @@
-package com.app.toaster.infrastructure;
+package com.app.toaster.recommendsite.infrastructure;
 
 
-import com.app.toaster.domain.RecommendSite;
+import com.app.toaster.recommendsite.domain.RecommendSite;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public interface RecommedSiteRepository extends JpaRepository<RecommendSite, Long> {
 

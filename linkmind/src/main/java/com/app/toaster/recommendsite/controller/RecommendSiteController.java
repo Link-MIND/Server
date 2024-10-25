@@ -1,13 +1,12 @@
-package com.app.toaster.controller;
+package com.app.toaster.recommendsite.controller;
 
 import com.app.toaster.common.dto.ApiResponse;
 import com.app.toaster.config.UserId;
-import com.app.toaster.domain.RecommendSite;
+import com.app.toaster.recommendsite.domain.RecommendSite;
 import com.app.toaster.exception.Success;
-import com.app.toaster.service.recommendSite.RecommendSiteService;
+import com.app.toaster.recommendsite.service.RecommendSiteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

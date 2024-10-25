@@ -1,4 +1,4 @@
-package com.app.toaster.domain;
+package com.app.toaster.recommendsite.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
