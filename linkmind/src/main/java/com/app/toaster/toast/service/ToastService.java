@@ -28,7 +28,7 @@ import com.app.toaster.external.client.aws.S3Service;
 import com.app.toaster.infrastructure.CategoryRepository;
 import com.app.toaster.toast.infrastructure.ToastRepository;
 import com.app.toaster.infrastructure.UserRepository;
-import com.app.toaster.service.parse.ParsingService;
+import com.app.toaster.parse.service.ParsingService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

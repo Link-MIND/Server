@@ -22,7 +22,7 @@ import com.app.toaster.common.dto.ApiResponse;
 // import com.app.toaster.config.UserId;
 import com.app.toaster.config.UserId;
 import com.app.toaster.exception.Success;
-import com.app.toaster.service.parse.ParsingService;
+import com.app.toaster.parse.service.ParsingService;
 import com.app.toaster.toast.service.ToastService;
 
 import jakarta.validation.Valid;

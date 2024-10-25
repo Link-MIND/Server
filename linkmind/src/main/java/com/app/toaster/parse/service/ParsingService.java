@@ -1,4 +1,4 @@
-package com.app.toaster.service.parse;
+package com.app.toaster.parse.service;
 
 import java.io.IOException;
 import java.net.ConnectException;
