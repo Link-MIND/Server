@@ -1,6 +1,6 @@
 package com.app.toaster.toast.infrastructure;
 
-import com.app.toaster.domain.Category;
+import com.app.toaster.category.domain.Category;
 import com.app.toaster.user.domain.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;

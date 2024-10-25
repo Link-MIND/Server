@@ -1,4 +1,4 @@
-package com.app.toaster.domain;
+package com.app.toaster.category.domain;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package com.app.toaster.domain;
+package com.app.toaster.common.domain;
 
 
 import jakarta.persistence.EntityListeners;

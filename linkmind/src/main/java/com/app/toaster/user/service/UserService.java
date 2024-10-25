@@ -1,9 +1,9 @@
 package com.app.toaster.user.service;
 
-import com.app.toaster.controller.response.category.CategoryResponse;
+import com.app.toaster.category.controller.response.CategoryResponse;
 import com.app.toaster.controller.response.main.MainPageResponseDto;
-import com.app.toaster.domain.Category;
-import com.app.toaster.infrastructure.CategoryRepository;
+import com.app.toaster.category.domain.Category;
+import com.app.toaster.category.infrastructure.CategoryRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

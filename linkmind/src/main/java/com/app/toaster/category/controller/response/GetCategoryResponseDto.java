@@ -1,4 +1,4 @@
-package com.app.toaster.controller.response.category;
+package com.app.toaster.category.controller.response;
 
 import com.app.toaster.toast.controller.response.ToastDto;
 import lombok.Builder;

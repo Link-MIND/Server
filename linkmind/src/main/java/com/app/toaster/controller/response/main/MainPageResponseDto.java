@@ -1,6 +1,6 @@
 package com.app.toaster.controller.response.main;
 
-import com.app.toaster.controller.response.category.CategoryResponse;
+import com.app.toaster.category.controller.response.CategoryResponse;
 
 import lombok.Builder;
 

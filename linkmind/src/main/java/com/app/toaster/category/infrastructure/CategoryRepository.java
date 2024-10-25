@@ -1,4 +1,4 @@
-package com.app.toaster.infrastructure;
+package com.app.toaster.category.infrastructure;
 
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 import com.app.toaster.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.app.toaster.domain.Category;
+import com.app.toaster.category.domain.Category;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

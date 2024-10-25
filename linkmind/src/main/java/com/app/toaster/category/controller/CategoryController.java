@@ -1,15 +1,17 @@
-package com.app.toaster.controller;
+package com.app.toaster.category.controller;
 
+import com.app.toaster.category.controller.request.ChangeCateoryPriorityDto;
+import com.app.toaster.category.controller.request.ChangeCateoryTitleDto;
+import com.app.toaster.category.controller.request.CreateCategoryDto;
 import com.app.toaster.common.dto.ApiResponse;
 import com.app.toaster.config.UserId;
-import com.app.toaster.controller.request.category.*;
-import com.app.toaster.controller.response.category.CategoriesResponse;
+import com.app.toaster.category.controller.response.CategoriesResponse;
 import com.app.toaster.toast.controller.response.ToastFilter;
-import com.app.toaster.controller.response.category.GetCategoryResponseDto;
+import com.app.toaster.category.controller.response.GetCategoryResponseDto;
 import com.app.toaster.controller.valid.Severity;
 import com.app.toaster.controller.valid.TitleValid;
 import com.app.toaster.exception.Success;
-import com.app.toaster.service.category.CategoryService;
+import com.app.toaster.category.service.CategoryService;
 import com.app.toaster.service.search.SearchService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

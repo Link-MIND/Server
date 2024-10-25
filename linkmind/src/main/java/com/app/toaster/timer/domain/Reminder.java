@@ -1,7 +1,7 @@
 package com.app.toaster.timer.domain;
 
-import com.app.toaster.domain.Category;
-import com.app.toaster.domain.IntegerListConverter;
+import com.app.toaster.category.domain.Category;
+import com.app.toaster.common.domain.IntegerListConverter;
 import com.app.toaster.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

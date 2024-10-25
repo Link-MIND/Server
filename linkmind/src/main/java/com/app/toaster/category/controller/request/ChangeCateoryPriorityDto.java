@@ -1,4 +1,4 @@
-package com.app.toaster.controller.request.category;
+package com.app.toaster.category.controller.request;
 
 import jakarta.validation.constraints.NotNull;
 

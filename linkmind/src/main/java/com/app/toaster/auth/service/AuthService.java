@@ -22,7 +22,7 @@ import com.app.toaster.external.client.discord.DiscordMessageProvider;
 import com.app.toaster.external.client.discord.NotificationDto;
 import com.app.toaster.external.client.discord.NotificationType;
 import com.app.toaster.external.client.slack.SlackApi;
-import com.app.toaster.infrastructure.CategoryRepository;
+import com.app.toaster.category.infrastructure.CategoryRepository;
 import com.app.toaster.timer.infrastructure.TimerRepository;
 import com.app.toaster.toast.infrastructure.ToastRepository;
 import com.app.toaster.user.infrastructure.UserRepository;
