@@ -2,7 +2,7 @@ package com.app.toaster.timer.infrastructure;
 
 import com.app.toaster.domain.Category;
 import com.app.toaster.timer.domain.Reminder;
-import com.app.toaster.domain.User;
+import com.app.toaster.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

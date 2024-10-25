@@ -12,14 +12,14 @@ import com.app.toaster.controller.response.search.SearchMainResult;
 import com.app.toaster.toast.controller.response.ToastDto;
 import com.app.toaster.domain.Category;
 import com.app.toaster.toast.domain.Toast;
-import com.app.toaster.domain.User;
+import com.app.toaster.user.domain.User;
 import com.app.toaster.exception.Error;
 import com.app.toaster.exception.Success;
 import com.app.toaster.exception.model.BadRequestException;
 import com.app.toaster.exception.model.NotFoundException;
 import com.app.toaster.infrastructure.CategoryRepository;
 import com.app.toaster.toast.infrastructure.ToastRepository;
-import com.app.toaster.infrastructure.UserRepository;
+import com.app.toaster.user.infrastructure.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

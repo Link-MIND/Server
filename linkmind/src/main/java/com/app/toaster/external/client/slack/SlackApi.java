@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.app.toaster.exception.Success;
-import com.app.toaster.infrastructure.UserRepository;
+import com.app.toaster.user.infrastructure.UserRepository;
 import com.slack.api.Slack;
 import com.slack.api.model.block.Blocks;
 import com.slack.api.model.block.LayoutBlock;

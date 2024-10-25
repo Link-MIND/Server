@@ -3,18 +3,15 @@ package com.app.toaster.infrastructure;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
-import com.app.toaster.controller.request.category.ChangeCateoryTitleDto;
-import com.app.toaster.domain.User;
+import com.app.toaster.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.app.toaster.domain.Category;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 

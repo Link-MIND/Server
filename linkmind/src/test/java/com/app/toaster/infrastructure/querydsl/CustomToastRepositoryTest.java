@@ -25,7 +25,7 @@
 // import com.app.toaster.fixture.Fixture;
 // import com.app.toaster.infrastructure.CategoryRepository;
 // import com.app.toaster.toast.infrastructure.ToastRepository;
-// import com.app.toaster.infrastructure.UserRepository;
+// import com.app.toaster.user.infrastructure.UserRepository;
 // import com.querydsl.core.types.dsl.BooleanExpression;
 // import com.querydsl.jpa.impl.JPAQueryFactory;
 //

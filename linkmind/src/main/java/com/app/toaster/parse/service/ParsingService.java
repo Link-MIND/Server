@@ -3,9 +3,6 @@ package com.app.toaster.parse.service;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.List;
 
 import javax.net.ssl.SSLHandshakeException;
 
@@ -18,13 +15,11 @@ import org.springframework.stereotype.Service;
 
 // import com.app.toaster.external.client.aws.S3Service;
 
-import com.app.toaster.controller.response.parse.OgResponse;
+import com.app.toaster.parse.controller.response.OgResponse;
 import com.app.toaster.exception.Error;
 import com.app.toaster.exception.model.BadRequestException;
 import com.app.toaster.exception.model.CustomException;
-import com.app.toaster.external.client.aws.AWSConfig;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

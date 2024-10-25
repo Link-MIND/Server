@@ -15,11 +15,8 @@ import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import com.app.toaster.exception.Error;
-import com.app.toaster.exception.model.CustomException;
-import com.app.toaster.infrastructure.UserRepository;
+import com.app.toaster.user.infrastructure.UserRepository;
 
-import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

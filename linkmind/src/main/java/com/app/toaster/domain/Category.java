@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 
 import com.app.toaster.timer.domain.Reminder;
+import com.app.toaster.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

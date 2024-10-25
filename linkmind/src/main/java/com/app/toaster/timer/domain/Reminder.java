@@ -2,21 +2,16 @@ package com.app.toaster.timer.domain;
 
 import com.app.toaster.domain.Category;
 import com.app.toaster.domain.IntegerListConverter;
-import com.app.toaster.domain.User;
+import com.app.toaster.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.cglib.core.Local;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
