@@ -37,6 +37,7 @@ import jakarta.validation.ConstraintDefinitionException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 @Component
@@ -97,6 +98,13 @@ public class ControllerExceptionAdvice {
 	protected ResponseEntity<ApiResponse> MissingServletRequestParameterException(final MissingServletRequestParameterException e, WebRequest request) {
 		return ResponseEntity.status(e.getStatusCode())
 			.body(ApiResponse.error(Error.BAD_REQUEST_VALIDATION, Error.BAD_REQUEST_VALIDATION.getMessage()));
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(NoResourceFoundException.class)
+	protected ResponseEntity<ApiResponse> ServletCrawlerException(final NoResourceFoundException e, WebRequest request) {
+		return ResponseEntity.status(e.getStatusCode())
+				.body(ApiResponse.error(Error.BAD_REQUEST_VALIDATION, Error.BAD_REQUEST_VALIDATION.getMessage()));
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
