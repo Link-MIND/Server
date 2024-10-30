@@ -3,7 +3,7 @@ package com.app.toaster.toast.controller;
 import java.io.IOException;
 import java.util.List;
 
-import com.app.toaster.service.link.LinkService;
+import com.app.toaster.link.service.LinkService;
 import com.app.toaster.toast.controller.request.*;
 import com.app.toaster.toast.controller.response.*;
 import org.springframework.http.HttpStatus;
@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.toaster.common.dto.ApiResponse;
 // import com.app.toaster.config.UserId;
-import com.app.toaster.config.UserId;
+import com.app.toaster.common.config.UserId;
 import com.app.toaster.exception.Success;
-import com.app.toaster.service.parse.ParsingService;
+import com.app.toaster.parse.service.ParsingService;
 import com.app.toaster.toast.service.ToastService;
 
 import jakarta.validation.Valid;
