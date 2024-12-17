@@ -1,6 +1,6 @@
-package com.app.toaster.admin.domain;
+package com.app.toaster.admin.entity;
 
-import com.app.toaster.admin.entity.Admin;
+import com.app.toaster.admin.entity.ToasterAdmin;
 import com.app.toaster.exception.Error;
 import com.app.toaster.exception.model.CustomException;
 import jakarta.persistence.*;
@@ -28,10 +28,10 @@ public class VerifiedAdmin {
 
     @OneToOne(optional = false)
     @JoinColumn(name="admin_id", unique=true, nullable=false, updatable=false)
-    private Admin admin;
+    private ToasterAdmin admin;
 
     @Builder
-    public VerifiedAdmin(final Admin admin) {
+    public VerifiedAdmin(final ToasterAdmin admin) {
         this.admin = admin;
         this.authorized = false;
     }

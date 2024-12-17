@@ -1,17 +1,17 @@
 package com.app.toaster.admin.entity;
 
-import com.app.toaster.admin.domain.VerifiedAdmin;
-import com.app.toaster.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Admin {
+public class ToasterAdmin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,15 @@ public class Admin {
     @Column(name = "masterToken")
     private String masterToken;
 
+    @Column(name = "lastVerifiedDate")
+    private LocalDate lastTestDate;
+
     @Builder
-    public Admin(String username, String password){
+    public ToasterAdmin(String username, String password){
         this.username = username;
         this.password = password;
         this.verified = false;
+        this.lastTestDate = LocalDate.now();
     }
 
     public VerifiedAdmin authorize(){
@@ -45,7 +49,12 @@ public class Admin {
     }
 
     public void verify(){
+        this.lastTestDate = LocalDate.now();
         this.verified = true;
+    }
+
+    public boolean verifyLastDate(){
+        return LocalDate.now().isBefore(this.lastTestDate.plusDays(1));
     }
 
 }
