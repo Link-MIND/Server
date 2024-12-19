@@ -1,7 +1,8 @@
 package com.app.toaster.admin.service;
 
-import com.app.toaster.admin.domain.VerifiedAdmin;
-import com.app.toaster.admin.entity.Admin;
+import com.app.toaster.admin.controller.dto.command.VerifyNewAdminCommand;
+import com.app.toaster.admin.entity.VerifiedAdmin;
+import com.app.toaster.admin.entity.ToasterAdmin;
 import com.app.toaster.admin.infrastructure.AdminRepository;
 import com.app.toaster.admin.infrastructure.VerifiedAdminRepository;
 import com.app.toaster.auth.controller.response.TokenResponseDto;
@@ -20,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -36,8 +39,6 @@ public class AdminService {
 
     @Value(value = "${admin.salt}")
     private String salt;
-
-
 
     @Transactional
     public TokenResponseDto issueToken(Long testUserId) {
@@ -56,37 +57,74 @@ public class AdminService {
 
 
     @Transactional
-    public String registerVerifiedUser(final Admin admin) {
-        GoogleAuthenticatorKey key = googleAuthenticator.createCredentials();
+    public VerifyNewAdminCommand registerVerifiedUser(final ToasterAdmin toasterAdmin, boolean isNewAdmin) {
 
-        VerifiedAdmin verifiedAdmin = VerifiedAdmin.builder()
-                .admin(admin)
-                .build();
+        String otpKey = null;
+        Long id = null;
 
-        verifiedAdmin.changeOtpSecretKey(key.getKey());
-        Long id = verifiedAdminRepository.save(verifiedAdmin).getId();
-        return key.getKey()+"id="+id;
+        if (isNewAdmin) { //새로운 어드민의 경우 등록.
+
+            GoogleAuthenticatorKey key = googleAuthenticator.createCredentials();
+
+            VerifiedAdmin verifiedAdmin = VerifiedAdmin.builder()
+                    .admin(toasterAdmin)
+                    .build();
+
+            otpKey = key.getKey();
+            verifiedAdmin.changeOtpSecretKey(otpKey);
+
+            id = verifiedAdminRepository.save(verifiedAdmin).getId();
+
+        } else { //기존 경우의 경우는 그냥 찾기.
+
+            VerifiedAdmin existVerifiedAdmin = verifiedAdminRepository.findByAdmin(toasterAdmin)
+                    .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER_EXCEPTION, "찾을 수 없는 어드민 증명"));
+            id = existVerifiedAdmin.getId();
+            otpKey = existVerifiedAdmin.getOtpSecretKey();
+
+        }
+
+        return new VerifyNewAdminCommand(id, otpKey, isNewAdmin);
     }
 
     @Transactional
-    public Admin registerAdmin(String username, String password) {
+    public VerifyNewAdminCommand registerAdmin(String username, String password) {
 
         for (String adminString : adminList.split(salt)) {
 
             if (adminString.equals(username)) {
 
+                ToasterAdmin existAdmin = findExistAdminPreVerification(username, password);
+
+                if (existAdmin != null) {
+                    if (existAdmin.verifyLastDate()) { //검증된 경우면 걍 어드민을 리턴.
+                        return registerVerifiedUser(existAdmin, false);
+                    }
+                    return registerVerifiedUser(existAdmin, true);
+                }
+
+
                 String encPassword = passwordEncoder.encode(password);
 
-                Admin admin = Admin.builder()
+                ToasterAdmin toasterAdmin = ToasterAdmin.builder()
                         .username(username)
                         .password(encPassword)
                         .build();
 
-                return adminRepository.save(admin);
+                return registerVerifiedUser(adminRepository.save(toasterAdmin), true);
             }
         }
-
         throw new CustomException(Error.NOT_FOUND_USER_EXCEPTION, "어드민이 아닙니다.");
+    }
+
+    public ToasterAdmin findExistAdminPreVerification(String username, String password) {
+        Optional<ToasterAdmin> admin = adminRepository.findByUsername(username);
+
+        if (passwordEncoder.matches(password, admin.get().getPassword())) {
+            return admin.get();
+        }
+
+        return null;
     }
 
 }
