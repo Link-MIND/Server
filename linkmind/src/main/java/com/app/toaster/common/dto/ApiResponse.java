@@ -3,14 +3,12 @@ package com.app.toaster.common.dto;
 import com.app.toaster.exception.Error;
 import com.app.toaster.exception.Success;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 public class ApiResponse<T> {
 
 	private final int code;
