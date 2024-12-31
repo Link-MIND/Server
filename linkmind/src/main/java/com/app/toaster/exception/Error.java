@@ -52,6 +52,7 @@ public enum Error {
 	 */
 	UNAUTHORIZED_ACCESS(HttpStatus.FORBIDDEN, "리소스에 대한 권한이 없습니다."),
 	INVALID_USER_ACCESS(HttpStatus.FORBIDDEN, "접근 권한이 없는 유저입니다."),
+	TIMEOUT_ADMIN_ACCESS(HttpStatus.FORBIDDEN, "타임아웃으로 MFA 인증이 필요합니다."),
 
 	/**
 	 * 422 UNPROCESSABLE_ENTITY
@@ -69,6 +70,7 @@ public enum Error {
 	INVALID_ENCRYPT_COMMUNICATION(HttpStatus.INTERNAL_SERVER_ERROR, "ios 통신 증명 과정 중 문제가 발생했습니다."),
 	CREATE_PUBLIC_KEY_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "publickey 생성 과정 중 문제가 발생했습니다."),
 	FAIL_TO_SEND_PUSH_ALARM(HttpStatus.INTERNAL_SERVER_ERROR, "다수기기 푸시메시지 전송 실패"),
+	FAIL_TO_QR_GENERATE(HttpStatus.INTERNAL_SERVER_ERROR, "QR 생성 실패"),
 	FAIL_TO_SEND_SQS(HttpStatus.INTERNAL_SERVER_ERROR, "sqs 전송 실패"),
 	INVALID_DISCORD_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, "디스코드 알림 전송 실패"),
 

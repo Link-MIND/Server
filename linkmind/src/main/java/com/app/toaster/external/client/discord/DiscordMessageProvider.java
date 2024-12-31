@@ -1,5 +1,6 @@
 package com.app.toaster.external.client.discord;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URI;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -20,6 +22,7 @@ import com.app.toaster.user.infrastructure.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Component
@@ -43,6 +46,19 @@ public class DiscordMessageProvider {
                 switch (notification.type()){
                     case ERROR -> discordClient.sendMessage(URI.create(webhookUrlError), createErrorMessage(notification.e(), notification.request()));
                     case SIGNUP -> discordClient.sendMessage(URI.create(webhookUrlSign), createSignUpMessage());
+                    case ADMIN -> discordClient.sendMessage(URI.create(webhookUrlError), createAdminMessage(notification.request()));
+                }
+            } catch (Exception error) {
+                log.warn("discord notification fail : " + error);
+            }
+        }
+    }
+
+    public void sendAdmin(NotificationDto notification) {
+        if (!Arrays.asList(environment.getActiveProfiles()).contains("local")) { // 일단 로컬 막아두겠습니다. TODO: 웹훅 주소 바꾸기
+            try {
+                switch (notification.type()){
+                    case ADMIN -> discordClient.sendMessage(URI.create(webhookUrlError), createAdminMessage(notification.request()));
                 }
             } catch (Exception error) {
                 log.warn("discord notification fail : " + error);
@@ -93,6 +109,33 @@ public class DiscordMessageProvider {
                 )
             )
             .build();
+    }
+
+    private DiscordMessage createAdminMessage(String file) throws IOException {
+        return DiscordMessage.builder()
+                .content("# 😍스웨거 MFA 만들어보기")
+                .embeds(
+                        List.of(
+                                DiscordMessage.Embed.builder()
+                                        .title("ℹ️ 에러 정보")
+                                        .description(
+                                                "### 🕖 발생 시간\n"
+                                                        + LocalDateTime.now()
+                                                        + "\n"
+                                                        + "### 🔗 요청 URL\n"
+                                                        + "스웨거 테스트"
+                                                        + "\n"
+                                                        + "### 📄 Stack Trace\n"
+                                                        + "\n```")
+                                        .image(DiscordMessage.EmbedImage.builder()
+                                                        .url(file)
+                                                        .height(300)
+                                                        .width(300)
+                                                        .build()
+                                        ).build()
+                                )
+                        )
+                .build();
     }
 
     private String createRequestFullPath(WebRequest webRequest) {
