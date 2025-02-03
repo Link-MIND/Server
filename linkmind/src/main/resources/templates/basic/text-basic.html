@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>버튼 선택 페이지</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff; /* 배경색 조정 가능 */
+        }
+        .button-container {
+            text-align: center;
+        }
+        .button {
+            background-color: #add8e6; /* 연한 파란색 */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #87ceeb; /* 버튼 호버 색상 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="button-container">
+    <button class="button" th:onclick="|location.href='@{/basic/hi}'|" type="button">개발자 백 오피스</button>
+    <br><br>
+    <button class="button" th:onclick="|location.href='@{/swagger-ui/index.html#/}'|" type="button">손님</button>
+</div>
+
+</body>
+</html>

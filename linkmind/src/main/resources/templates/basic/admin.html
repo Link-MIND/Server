@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>환영합니다</title>
+</head>
+<body>
+<h1 id="welcomeMessage"></h1> <!-- ID를 추가하여 JavaScript에서 접근 가능하게 함 -->
+</body>
+
+<script>
+    // 세션 스토리지에서 userName을 가져옴
+    const userName = sessionStorage.getItem('userName');
+
+    // userName이 존재하는 경우 환영 메시지를 설정
+    if (userName) {
+        document.getElementById('welcomeMessage').innerText = userName + '님 환영합니다!';
+    } else {
+        document.getElementById('welcomeMessage').innerText = '환영합니다!';
+    }
+</script>
+</html>
