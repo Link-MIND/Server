@@ -96,16 +96,16 @@ class AdminController {
         return RedirectResponse.success(Success.LOGIN_SUCCESS,"main", result);
     }
 
-    @PostMapping("/link")
-    public void addRecommendLink(@RequestBody LinkDto linkDto){
-        adminLinkService.addNewRecommendLink(linkDto);
-    }
-
-    @GetMapping("/link")
-    public String getAllLink(Model model){
-        model.addAttribute("links", adminLinkService.findAllLink());
-        return "basic/linkListPage";
-    }
+//    @PostMapping("/link")
+//    public void addRecommendLink(@RequestBody LinkDto linkDto){
+//        adminLinkService.addNewRecommendLink(linkDto);
+//    }
+//
+//    @GetMapping("/link")
+//    public String getAllLink(Model model){
+//        model.addAttribute("links", adminLinkService.findAllLink());
+//        return "basic/linkListPage";
+//    }
 
     private String executeDiscordQrOperation(String key){
         MultipartFile qrImage = qrMfaAuthenticator.generateQrCode(key);
