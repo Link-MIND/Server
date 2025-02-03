@@ -3,7 +3,7 @@ package com.app.toaster.admin.controller;
 import com.app.toaster.admin.common.RedirectResponse;
 import com.app.toaster.admin.controller.dto.command.VerifyNewAdminCommand;
 import com.app.toaster.admin.controller.dto.request.AdminTotpDto;
-import com.app.toaster.admin.controller.dto.request.LinkDto;
+//import com.app.toaster.admin.controller.dto.request.LinkDto;
 import com.app.toaster.admin.controller.dto.request.SignInDto;
 import com.app.toaster.admin.controller.dto.response.AdminResponse;
 import com.app.toaster.admin.domain.AdminStatus;
