@@ -63,9 +63,9 @@ jobs:
     - name: 도커 컨테이너 실행
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.INFRA_TEST_RELEASE_SERVER_IP }}
-        username: ${{ secrets.INFRA_TEST_RELEASE_SERVER_USER }}
-        key: ${{ secrets.INFRA_TEST_RELEASE_SERVER_KEY }}
+        host: ${{ secrets.INFRA_TEST_SERVER_IP }}
+        username: ${{ secrets.INFRA_TEST_SERVER_USER }}
+        key: ${{ secrets.INFRA_TEST_SERVER_KEY }}
         script: |
           cd ~
           ./deploy.sh
