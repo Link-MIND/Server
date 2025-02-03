@@ -3,11 +3,14 @@ package com.app.toaster.admin.controller;
 import com.app.toaster.admin.common.RedirectResponse;
 import com.app.toaster.admin.controller.dto.command.VerifyNewAdminCommand;
 import com.app.toaster.admin.controller.dto.request.AdminTotpDto;
+import com.app.toaster.admin.controller.dto.request.LinkDto;
 import com.app.toaster.admin.controller.dto.request.SignInDto;
 import com.app.toaster.admin.controller.dto.response.AdminResponse;
+import com.app.toaster.admin.domain.AdminStatus;
 import com.app.toaster.admin.entity.ToasterAdmin;
 import com.app.toaster.admin.service.AdminService;
 import com.app.toaster.admin.config.QrMfaAuthenticator;
+import com.app.toaster.admin.service.AdminLinkService;
 import com.app.toaster.exception.Error;
 import com.app.toaster.exception.Success;
 import com.app.toaster.exception.model.CustomException;
@@ -36,18 +39,18 @@ class AdminController {
     private final S3Service s3Service;
     private final QrMfaAuthenticator qrMfaAuthenticator;
     private final AdminService adminService;
+    private final AdminLinkService adminLinkService;
 
     @PostMapping("/register")
     @ResponseBody
     public RedirectResponse<?> registerAdmin(@RequestBody SignInDto signInDto, HttpSession session) {
-
         VerifyNewAdminCommand res = adminService.registerAdmin(signInDto.username(), signInDto.password());
 
         String key = res.key();
         Long adminId = res.id();
-        boolean isNewAdmin = res.isNewAdmin();
+        AdminStatus adminStatus = res.adminStatus();
 
-        if (isNewAdmin){
+        if (adminStatus.equals(AdminStatus.FIRST_REGISTER)){
             key = executeDiscordQrOperation(key);
         }
 
@@ -91,6 +94,17 @@ class AdminController {
         AdminResponse result = new AdminResponse(toasterAdmin.getUsername());
         s3Service.deleteImage((String) session.getAttribute("QrUrl"));
         return RedirectResponse.success(Success.LOGIN_SUCCESS,"main", result);
+    }
+
+    @PostMapping("/link")
+    public void addRecommendLink(@RequestBody LinkDto linkDto){
+        adminLinkService.addNewRecommendLink(linkDto);
+    }
+
+    @GetMapping("/link")
+    public String getAllLink(Model model){
+        model.addAttribute("links", adminLinkService.findAllLink());
+        return "basic/linkListPage";
     }
 
     private String executeDiscordQrOperation(String key){

@@ -1,6 +1,7 @@
 package com.app.toaster.admin.service;
 
 import com.app.toaster.admin.controller.dto.command.VerifyNewAdminCommand;
+import com.app.toaster.admin.domain.AdminStatus;
 import com.app.toaster.admin.entity.VerifiedAdmin;
 import com.app.toaster.admin.entity.ToasterAdmin;
 import com.app.toaster.admin.infrastructure.AdminRepository;
@@ -60,17 +61,17 @@ public class AdminService {
 
 
     @Transactional
-    public VerifyNewAdminCommand registerVerifiedUser(final ToasterAdmin toasterAdmin, boolean isNewAdmin) {
+    public VerifyNewAdminCommand registerVerifiedUser(final ToasterAdmin toasterAdmin, AdminStatus adminStatus) {
 
         String otpKey = null;
         Long id = null;
 
         Optional<VerifiedAdmin> existVerifiedAdmin = verifiedAdminRepository.findByAdmin(toasterAdmin);
 
-        if (isNewAdmin) { //새로운 어드민의 경우 등록.
+        if (AdminStatus.NEED_RENEW.equals(adminStatus) || AdminStatus.FIRST_REGISTER.equals(adminStatus)) { //새로운 어드민의 경우 등록.
             log.info("갱신해야되는 케이스.");
 
-            deletePastVerify(existVerifiedAdmin);
+            deletePastVerify(existVerifiedAdmin); //새로운 어드민이면 여기서 기존 verify삭제 안함.
 
             GoogleAuthenticatorKey key = googleAuthenticator.createCredentials();
 
@@ -96,7 +97,7 @@ public class AdminService {
 
         }
 
-        return new VerifyNewAdminCommand(id, otpKey, isNewAdmin);
+        return new VerifyNewAdminCommand(id, otpKey, adminStatus);
     }
 
     @Transactional
@@ -111,9 +112,9 @@ public class AdminService {
                 if (existAdmin != null) {
                     log.info("존재합니다. 전 이 게임을 해봤어요.");
                     if (existAdmin.verifyLastDate()) { //검증된 경우면 걍 어드민을 리턴.
-                        return registerVerifiedUser(existAdmin, false);
+                        return registerVerifiedUser(existAdmin, AdminStatus.ACCEPTED);
                     }else{
-                        return registerVerifiedUser(existAdmin, true); //아닌 경우는 갱신을 해야됨.
+                        return registerVerifiedUser(existAdmin, AdminStatus.NEED_RENEW); //아닌 경우는 갱신을 해야됨.
                     }
                 }
 
@@ -126,7 +127,7 @@ public class AdminService {
                         .password(encPassword)
                         .build();
 
-                return registerVerifiedUser(adminRepository.save(toasterAdmin), true);
+                return registerVerifiedUser(adminRepository.save(toasterAdmin), AdminStatus.FIRST_REGISTER);
             }
         }
         throw new CustomException(Error.NOT_FOUND_USER_EXCEPTION, "어드민이 아닙니다.");
