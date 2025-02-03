@@ -16,7 +16,9 @@ import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +27,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdminService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final VerifiedAdminRepository verifiedAdminRepository;
     private final AdminRepository adminRepository;
     private final GoogleAuthenticator googleAuthenticator;
@@ -62,7 +65,12 @@ public class AdminService {
         String otpKey = null;
         Long id = null;
 
+        Optional<VerifiedAdmin> existVerifiedAdmin = verifiedAdminRepository.findByAdmin(toasterAdmin);
+
         if (isNewAdmin) { //새로운 어드민의 경우 등록.
+            log.info("갱신해야되는 케이스.");
+
+            deletePastVerify(existVerifiedAdmin);
 
             GoogleAuthenticatorKey key = googleAuthenticator.createCredentials();
 
@@ -70,17 +78,21 @@ public class AdminService {
                     .admin(toasterAdmin)
                     .build();
 
+
             otpKey = key.getKey();
             verifiedAdmin.changeOtpSecretKey(otpKey);
 
             id = verifiedAdminRepository.save(verifiedAdmin).getId();
 
         } else { //기존 경우의 경우는 그냥 찾기.
+            log.info("기존의 경우로 넘어왔숨.");
 
-            VerifiedAdmin existVerifiedAdmin = verifiedAdminRepository.findByAdmin(toasterAdmin)
-                    .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER_EXCEPTION, "찾을 수 없는 어드민 증명"));
-            id = existVerifiedAdmin.getId();
-            otpKey = existVerifiedAdmin.getOtpSecretKey();
+            if (existVerifiedAdmin.isEmpty()){
+                throw new CustomException(Error.NOT_FOUND_USER_EXCEPTION, "찾을 수 없는 어드민 증명");
+            }
+
+            id = existVerifiedAdmin.get().getId();
+            otpKey = existVerifiedAdmin.get().getOtpSecretKey();
 
         }
 
@@ -94,17 +106,20 @@ public class AdminService {
 
             if (adminString.equals(username)) {
 
-                ToasterAdmin existAdmin = findExistAdminPreVerification(username, password);
+                ToasterAdmin existAdmin = findExistAdminPreVerification(username, password); //암호화 된 패스워드로 이미 했던적있는지 확인.
 
                 if (existAdmin != null) {
+                    log.info("존재합니다. 전 이 게임을 해봤어요.");
                     if (existAdmin.verifyLastDate()) { //검증된 경우면 걍 어드민을 리턴.
                         return registerVerifiedUser(existAdmin, false);
+                    }else{
+                        return registerVerifiedUser(existAdmin, true); //아닌 경우는 갱신을 해야됨.
                     }
-                    return registerVerifiedUser(existAdmin, true);
                 }
 
-
-                String encPassword = passwordEncoder.encode(password);
+                //id는 알고있음. Password를 통한 관리자 회원가입 시키기.
+                log.info("디비에 어드민이 존재하지않아 어드민 회원가입 진행.");
+                String encPassword = passwordEncoder.encode(password.toLowerCase());
 
                 ToasterAdmin toasterAdmin = ToasterAdmin.builder()
                         .username(username)
@@ -116,18 +131,26 @@ public class AdminService {
         }
         throw new CustomException(Error.NOT_FOUND_USER_EXCEPTION, "어드민이 아닙니다.");
     }
+    @Transactional
+    public void deletePastVerify(Optional<VerifiedAdmin> existVerifiedAdmin){
+        if(existVerifiedAdmin.isPresent()){
+            verifiedAdminRepository.delete(existVerifiedAdmin.get());
+        }
+    }
 
     public ToasterAdmin findExistAdminPreVerification(String username, String password) {
         Optional<ToasterAdmin> admin = adminRepository.findByUsername(username);
+        log.info("admin이 이미 존재하는지 password match 진행.");
         if (admin.isEmpty()){
             return null;
         }
 
-        if (passwordEncoder.matches(password, admin.get().getPassword())) {
+        if (passwordEncoder.matches(password.toLowerCase(), admin.get().getPassword())) {
             return admin.get();
+        }else{
+            throw new CustomException(Error.NOT_FOUND_USER_EXCEPTION, "비밀번호가 틀립니다.");
         }
 
-        return null; //TODO: 다른 엣지 케이스가 더 있는지 생각해보고 없으면 걍 바로 에러 throw
     }
 
 }
