@@ -119,12 +119,15 @@ public class AdminService {
 
     public ToasterAdmin findExistAdminPreVerification(String username, String password) {
         Optional<ToasterAdmin> admin = adminRepository.findByUsername(username);
+        if (admin.isEmpty()){
+            return null;
+        }
 
         if (passwordEncoder.matches(password, admin.get().getPassword())) {
             return admin.get();
         }
 
-        return null;
+        return null; //TODO: 다른 엣지 케이스가 더 있는지 생각해보고 없으면 걍 바로 에러 throw
     }
 
 }
