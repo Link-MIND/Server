@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Objects;
 
@@ -26,8 +28,9 @@ public class VerifiedAdmin {
     @Column
     private boolean authorized;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name="admin_id", unique=true, nullable=false, updatable=false)
+    @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name="admin_id")
     private ToasterAdmin admin;
 
     @Builder
