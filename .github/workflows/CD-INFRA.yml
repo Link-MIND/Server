@@ -1,4 +1,4 @@
-name: CD
+name: CD-INFRA
 
 on:
   push:
