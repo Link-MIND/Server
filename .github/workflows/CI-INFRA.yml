@@ -1,0 +1,40 @@
+name: CI-INFRA
+
+on:
+  pull_request:
+    branches: [ "infra-test" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04 
+    env:
+      working-directory: linkmind
+
+    steps: 
+    - name: 체크아웃
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'corretto'
+        java-version: '17'
+
+    - name: application.yaml 생성
+      run: | 
+          cd src/main/resources
+          echo "${{ secrets.APPLICATION_INFRA_TEST }}" > ./application.yaml
+      working-directory: ${{ env.working-directory }}
+
+    - name: toaster-firebase-admin-sdk.json 생성
+      run: |
+          cd src/main/resources
+          echo "${{ secrets.TOASTER_FIREBASE_ADMIN_SDK }}" > ./toaster-firebase-admin-sdk.json
+      working-directory: ${{ env.working-directory }}
+      
+    - name: 빌드
+      run: |
+          chmod +x gradlew
+          ./gradlew build -x test
+      working-directory: ${{ env.working-directory }}
+      shell: bash
