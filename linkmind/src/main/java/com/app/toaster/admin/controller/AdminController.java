@@ -39,7 +39,7 @@ class AdminController {
     private final S3Service s3Service;
     private final QrMfaAuthenticator qrMfaAuthenticator;
     private final AdminService adminService;
-    private final AdminLinkService adminLinkService;
+//    private final AdminLinkService adminLinkService;
 
     @PostMapping("/register")
     @ResponseBody
