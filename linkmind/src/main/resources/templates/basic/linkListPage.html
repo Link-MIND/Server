@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Links</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .link-container {
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+        }
+
+        .link-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .link-thumbnail {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .link-title {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${links.size() == 0}">
+    <h3>링크가 현재 없습니다!</h3>
+</div>
+<div class="link-container">
+    <h1>Links List</h1>
+    <div th:each="link : ${links}" class="link-item">
+        <img th:src="${link.thumbnailUrl}" alt="Thumbnail" class="link-thumbnail"/>
+        <span class="link-title" th:text="${link.title}"></span>
+    </div>
+</div>
+</body>
+</html>

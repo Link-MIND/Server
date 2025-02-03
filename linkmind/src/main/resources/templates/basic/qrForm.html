@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>입력폼 페이지</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff; /* 배경색 조정 가능 */
+        }
+
+        .form-container {
+            text-align: center;
+        }
+
+        .input-field {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            width: 300px;
+            margin-bottom: 15px;
+        }
+
+        .submit-button {
+            background-color: #add8e6; /* 연한 파란색 */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #87ceeb; /* 버튼 호버 색상 */
+        }
+    </style>
+</head>
+<body>
+
+
+<h1>QR 코드를 관리자 디스코드에서 등록하셨나요?</h1>
+
+<div class="form-container">
+
+    <h2>입력코드를 입력하세요!</h2>
+    <form id="codeForm">
+        <input type="text" class="input-field" placeholder="코드를 입력하세요" id="code"/>
+        <br>
+        <button class="submit-button" type="submit">제출</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('codeForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+
+        const code = document.getElementById('code').value;
+
+        // JSON 데이터 생성
+        const data = {
+            code: code,
+        };
+
+        // AJAX 요청
+        fetch('/admin/verify-code', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('네트워크 응답이 좋지 않습니다.');
+            })
+            .then(data => {
+                console.log(data); // 서버에서 반환한 데이터 처리
+                alert(data.data.userName); // 예를 들어, 성공 메시지 표시
+                if (data.redirectUrl) { // 리다이렉트 URL이 있는 경우
+                    // userName을 세션 스토리지에 저장
+                    sessionStorage.setItem('userName', data.data.userName);
+                    window.location.href = data.redirectUrl; // 리다이렉트
+                }
+            })
+            .catch(error => {
+                console.error('문제가 발생했습니다:', error);
+            });
+    });
+</script>
+
+</body>
+</html>
