@@ -180,8 +180,7 @@ public class S3Service {
 				.build();
 
 			URL url = s3Client.utilities().getUrl(request);
-			System.out.println("The URL for  "+keyName +" is "+ url);
-			return "The URL for  "+keyName +" is "+ url;
+			return ""+url;
 
 		} catch (S3Exception e) {
 			throw new CustomException(Error.UNPROCESSABLE_PRESIGNEDURL_EXCEPTION, Error.UNPROCESSABLE_PRESIGNEDURL_EXCEPTION.getMessage());
