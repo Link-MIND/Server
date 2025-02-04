@@ -3,16 +3,13 @@ package com.app.toaster.external.client.discord;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
 public class DiscordMessage {
 
     private String content;
@@ -22,6 +19,7 @@ public class DiscordMessage {
     @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Getter
+    @ToString
     public static class Embed {
 
         private String title;
@@ -32,6 +30,7 @@ public class DiscordMessage {
     @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Getter
+    @ToString
     public static class EmbedImage{
 
         private String url;

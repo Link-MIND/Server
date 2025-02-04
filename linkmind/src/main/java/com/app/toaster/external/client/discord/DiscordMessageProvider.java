@@ -112,7 +112,7 @@ public class DiscordMessageProvider {
     }
 
     private DiscordMessage createAdminMessage(String file) throws IOException {
-        return DiscordMessage.builder()
+        DiscordMessage message =  DiscordMessage.builder()
                 .content("# 😍스웨거 MFA 만들어보기")
                 .embeds(
                         List.of(
@@ -136,6 +136,8 @@ public class DiscordMessageProvider {
                                 )
                         )
                 .build();
+        log.info(message.toString());
+        return message;
     }
 
     private String createRequestFullPath(WebRequest webRequest) {
