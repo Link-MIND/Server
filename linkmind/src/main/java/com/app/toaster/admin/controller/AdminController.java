@@ -23,6 +23,7 @@ import com.app.toaster.external.client.discord.NotificationType;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
+@Slf4j
 class AdminController {
 
     private final DiscordMessageProvider discordMessageProvider;
@@ -111,6 +113,7 @@ class AdminController {
         MultipartFile qrImage = qrMfaAuthenticator.generateQrCode(key);
         String imageKey = s3Service.uploadImage(qrImage, "admin/");
         String qrUrl = s3Service.getURL(imageKey);
+        log.info("qrUrl이 이렇게 들어갑니다."+qrUrl);
         discordMessageProvider.sendAdmin(new NotificationDto(NotificationType.ADMIN,null, qrUrl));
         return qrUrl;
     }
