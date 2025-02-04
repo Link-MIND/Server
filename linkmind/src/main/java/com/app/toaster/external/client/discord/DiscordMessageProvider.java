@@ -53,7 +53,7 @@ public class DiscordMessageProvider {
             }
         }
     }
-
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void sendAdmin(NotificationDto notification) {
         if (!Arrays.asList(environment.getActiveProfiles()).contains("local")) { // 일단 로컬 막아두겠습니다. TODO: 웹훅 주소 바꾸기
             try {
