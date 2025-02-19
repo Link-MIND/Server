@@ -2,9 +2,9 @@ package com.app.toaster.category.domain;
 
 import java.time.LocalDateTime;
 
-
 import com.app.toaster.timer.domain.Reminder;
 import com.app.toaster.user.domain.User;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category{
+public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long categoryId;
@@ -38,16 +38,27 @@ public class Category{
 		this.priority = priority;
 	}
 
-	public int getPriority(){
+	public int getPriority() {
 		return priority;
 	}
 
-	public void updateCategoryName(String newTitle){ this.title = newTitle;}
+	public void updateCategoryName(String newTitle) {
+		this.title = newTitle;
+	}
 
-	public void updateCategoryPriority(int newPriority){
-		this.priority = newPriority;}
+	public void increasePriority() {
+		this.priority++;
+	}
 
-	public void updateLatestReadTime(LocalDateTime now){
+	public void decreasePriority() {
+		this.priority--;
+	}
+
+	public void updateCategoryPriority(int newPriority) {
+		this.priority = newPriority;
+	}
+
+	public void updateLatestReadTime(LocalDateTime now) {
 		this.latestReadTime = now;
 	}
 }

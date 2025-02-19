@@ -1,6 +1,6 @@
 package com.app.toaster.category.service;
 
-import com.app.toaster.category.controller.request.ChangeCateoryPriorityDto;
+import com.app.toaster.category.controller.request.ChangeCategoryPriorityDto;
 import com.app.toaster.category.controller.request.ChangeCateoryTitleDto;
 import com.app.toaster.category.controller.request.CreateCategoryDto;
 import com.app.toaster.category.controller.response.CategoriesResponse;
@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,9 +41,8 @@ public class CategoryService {
 	private final UserRepository userRepository;
 	private final CategoryRepository categoryRepository;
 	private final ToastRepository toastRepository;
-
-	private final static int MAX_CATERGORY_NUMBER = 15;
 	private final TimerRepository timerRepository;
+	private final static int MAX_CATEGORY_NUMBER = 15;
 
 	@Transactional
 	public void createCategory(final Long userId, final CreateCategoryDto createCategoryDto) {
@@ -50,44 +50,43 @@ public class CategoryService {
 
 		// 현재 유저의 최대 우선순위를 가져와서 새로운 우선순위를 설정
 		val maxPriority = categoryRepository.findMaxPriorityByUser(presentUser);
-
 		val categoryNum = categoryRepository.countAllByUser(presentUser);
-		System.out.println(categoryNum);
 
-		if (categoryNum >= MAX_CATERGORY_NUMBER) {
+		if (categoryNum >= MAX_CATEGORY_NUMBER) {
 			throw new CustomException(Error.BAD_REQUEST_CREATE_CLIP_EXCEPTION,
-					Error.BAD_REQUEST_CREATE_CLIP_EXCEPTION.getMessage());
+				Error.BAD_REQUEST_CREATE_CLIP_EXCEPTION.getMessage());
 		}
 
-		if(categoryRepository.countAllByTitleAndUser(createCategoryDto.categoryTitle(),presentUser)>0){
-			throw new CustomException(Error.UNPROCESSABLE_CREATE_TIMER_EXCEPTION, Error.UNPROCESSABLE_CREATE_TIMER_EXCEPTION.getMessage());
+		if (categoryRepository.countAllByTitleAndUser(createCategoryDto.categoryTitle(), presentUser) > 0) {
+			throw new CustomException(Error.UNPROCESSABLE_CREATE_TIMER_EXCEPTION,
+				Error.UNPROCESSABLE_CREATE_TIMER_EXCEPTION.getMessage());
 		}
 
 		//카테고리 생성
 		Category newCategory = Category.builder()
-				.title(createCategoryDto.categoryTitle())
-				.user(presentUser)
-				.priority(maxPriority + 1)
-				.build();
+			.title(createCategoryDto.categoryTitle())
+			.user(presentUser)
+			.priority(maxPriority + 1)
+			.build();
 
 		categoryRepository.save(newCategory);
 	}
 
 	@Transactional
-	public void deleteCategory(final ArrayList<Long> deleteCategoryDto) {
-		if (deleteCategoryDto.isEmpty()) {
+	public void deleteCategory(final ArrayList<Long> deleteCategoryIds) {
+		if (deleteCategoryIds.isEmpty()) {
 			throw new BadRequestException(Error.BAD_REQUEST_VALIDATION, Error.BAD_REQUEST_VALIDATION.getMessage());
 		}
 
-		toastRepository.updateCategoryIdsToNull(deleteCategoryDto);
+		toastRepository.updateCategoryIdsToNull(deleteCategoryIds);
 
-		for (Long categoryId : deleteCategoryDto) {
+		for (Long categoryId : deleteCategoryIds) {
 			Category category = categoryRepository.findById(categoryId)
-					.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
-							Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
+				.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
+					Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
 
 			categoryRepository.decreasePriorityNextDeleteCategory(categoryId, category.getPriority(),
-					category.getUser().getUserId());
+				category.getUser().getUserId());
 
 			Reminder timer = timerRepository.findByCategory_CategoryId(categoryId);
 			if (timer != null)
@@ -102,13 +101,13 @@ public class CategoryService {
 		User presentUser = findUser(userId);
 
 		return CategoriesResponse.of(toastRepository.countAllByUser(presentUser),
-				categoryRepository.findAllByUserOrderByPriority(presentUser)
-						.stream()
-						.map(category -> CategoryResponse.builder()
-								.categoryId(category.getCategoryId())
-								.categoryTitle(category.getTitle())
-								.toastNum(toastRepository.getAllByCategory(category).size()).build()
-						).collect(Collectors.toList()));
+			categoryRepository.findAllByUserOrderByPriority(presentUser)
+				.stream()
+				.map(category -> CategoryResponse.builder()
+					.categoryId(category.getCategoryId())
+					.categoryTitle(category.getTitle())
+					.toastNum(toastRepository.getAllByCategory(category).size()).build()
+				).collect(Collectors.toList()));
 
 	}
 
@@ -119,14 +118,14 @@ public class CategoryService {
 			List<Toast> toastAllList = toastRepository.getAllByUserOrderByCreatedAtDesc(presentUser);
 			List<ToastDto> toastListDto = mapToToastDtoList(toastAllList, filter, null);
 			return GetCategoryResponseDto.builder()
-					.allToastNum(countToToast(filter,null,presentUser,true))
-					.toastListDto(toastListDto)
-					.build();
+				.allToastNum(countToToast(filter, null, presentUser, true))
+				.toastListDto(toastListDto)
+				.build();
 		}
 
 		Category category = categoryRepository.findById(categoryId)
-				.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
-						Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
+			.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
+				Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
 
 		category.updateLatestReadTime(LocalDateTime.now());
 
@@ -134,50 +133,49 @@ public class CategoryService {
 		List<ToastDto> toastListDto = mapToToastDtoList(toasts, filter, category);
 
 		return GetCategoryResponseDto.builder()
-				.allToastNum(countToToast(filter,category,presentUser,false))
-				.toastListDto(toastListDto)
-				.build();
+			.allToastNum(countToToast(filter, category, presentUser, false))
+			.toastListDto(toastListDto)
+			.build();
 	}
 
 	//순서 업데이트
 	@Transactional
-	public void editCategoryPriority(ChangeCateoryPriorityDto changeCateoryPriorityDto) {
+	public void editCategoryPriority(ChangeCategoryPriorityDto changeCategoryPriorityDto) {
+		val newPriority = changeCategoryPriorityDto.newPriority();
+		val categoryId = changeCategoryPriorityDto.categoryId();
 
-		val newPriority = changeCateoryPriorityDto.newPriority();
+		List<Category> categoryList = categoryRepository.findCategoriesForUpdate(categoryId, newPriority);
+		if (categoryList.isEmpty()) {
+			throw new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
+				Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage());
+		}
 
-		Category category = categoryRepository.findById(changeCateoryPriorityDto.categoryId())
-				.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
-						Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
-
-		int currentPriority = category.getPriority();
-		category.updateCategoryPriority(changeCateoryPriorityDto.newPriority());
-
-		if (currentPriority < newPriority)
-			categoryRepository.decreasePriorityByOne(changeCateoryPriorityDto.categoryId(), currentPriority,
-					newPriority, category.getUser().getUserId());
-		else if (currentPriority > newPriority)
-			categoryRepository.increasePriorityByOne(changeCateoryPriorityDto.categoryId(), currentPriority,
-					newPriority, category.getUser().getUserId());
-
+		if (Objects.equals(categoryList.get(0).getCategoryId(), categoryId)) {
+			categoryList.get(0).updateCategoryPriority(newPriority + 1);
+			categoryList.forEach(Category::decreasePriority);
+			categoryRepository.saveAll(categoryList);
+		} else {
+			categoryList.get(categoryList.size() - 1).updateCategoryPriority(newPriority - 1);
+			categoryList.forEach(Category::increasePriority);
+			categoryRepository.saveAll(categoryList);
+		}
 	}
 
 	@Transactional
 	public void editCategoryTitle(ChangeCateoryTitleDto changeCateoryTitleDto) {
-
 		categoryRepository.updateCategoryTitle(changeCateoryTitleDto.categoryId(), changeCateoryTitleDto.newTitle());
 	}
 
 	//해당 유저 탐색
 	private User findUser(Long userId) {
 		return userRepository.findByUserId(userId).orElseThrow(
-				() -> new NotFoundException(Error.NOT_FOUND_USER_EXCEPTION, Error.NOT_FOUND_USER_EXCEPTION.getMessage())
+			() -> new NotFoundException(Error.NOT_FOUND_USER_EXCEPTION, Error.NOT_FOUND_USER_EXCEPTION.getMessage())
 		);
 	}
 
 	@Transactional(readOnly = true)
 	public DuplicatedResponse checkDuplicatedTitle(Long userId, String title) {
 		return DuplicatedResponse.of(categoryRepository.existsCategoriesByUserAndTitle(findUser(userId), title));
-
 	}
 
 	private List<ToastDto> mapToToastDtoList(List<Toast> toasts, ToastFilter filter, Category category) {
@@ -185,24 +183,25 @@ public class CategoryService {
 			case ALL -> toasts.stream();
 			case READ -> toasts.stream().filter(Toast::getIsRead);
 			case UNREAD -> toasts.stream().filter(toast -> !toast.getIsRead());
-			default -> throw new NotFoundException(Error.NOT_FOUND_TOAST_FILTER, Error.NOT_FOUND_TOAST_FILTER.getMessage());
+			default ->
+				throw new NotFoundException(Error.NOT_FOUND_TOAST_FILTER, Error.NOT_FOUND_TOAST_FILTER.getMessage());
 		};
 
 		return toastStream.map(ToastDto::of).toList();
 	}
 
-	private int countToToast(ToastFilter filter, Category category,User user, boolean isCategoryNull) {
+	private int countToToast(ToastFilter filter, Category category, User user, boolean isCategoryNull) {
 		if (!isCategoryNull)
 			return switch (filter) {
 				case ALL -> toastRepository.countAllByCategory(category).intValue();
 				case READ -> toastRepository.countAllByCategoryAndIsReadTrue(category).intValue();
-                case UNREAD -> toastRepository.countAllByCategoryAndIsReadFalse(category).intValue();
+				case UNREAD -> toastRepository.countAllByCategoryAndIsReadFalse(category).intValue();
 			};
-        return switch (filter){
-            case ALL -> toastRepository.countAllByUser(user).intValue();
-            case READ -> toastRepository.countALLByUserAndIsReadTrue(user).intValue();
-            case UNREAD -> toastRepository.countALLByUserAndIsReadFalse(user).intValue();
-        };
+		return switch (filter) {
+			case ALL -> toastRepository.countAllByUser(user).intValue();
+			case READ -> toastRepository.countALLByUserAndIsReadTrue(user).intValue();
+			case UNREAD -> toastRepository.countALLByUserAndIsReadFalse(user).intValue();
+		};
 	}
 
 }
