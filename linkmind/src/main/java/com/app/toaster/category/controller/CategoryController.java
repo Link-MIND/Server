@@ -1,6 +1,6 @@
 package com.app.toaster.category.controller;
 
-import com.app.toaster.category.controller.request.ChangeCateoryPriorityDto;
+import com.app.toaster.category.controller.request.ChangeCategoryPriorityDto;
 import com.app.toaster.category.controller.request.ChangeCateoryTitleDto;
 import com.app.toaster.category.controller.request.CreateCategoryDto;
 import com.app.toaster.common.dto.ApiResponse;
@@ -33,7 +33,7 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse createCateory(
+    public ApiResponse createCategory(
             @UserId Long userId,
             @Valid @RequestBody CreateCategoryDto createCategoryDto
     ){
@@ -61,9 +61,9 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse editCategoryPriority(
             @UserId Long userId,
-            @RequestBody ChangeCateoryPriorityDto changeCateoryPriorityDto
+            @RequestBody ChangeCategoryPriorityDto changeCategoryPriorityDto
     ){
-        categoryService.editCategoryPriority(changeCateoryPriorityDto);
+        categoryService.editCategoryPriority(changeCategoryPriorityDto);
         return ApiResponse.success(Success.UPDATE_CATEGORY_TITLE_SUCCESS);
     }
 
