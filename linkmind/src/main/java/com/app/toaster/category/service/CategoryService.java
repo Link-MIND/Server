@@ -1,6 +1,6 @@
 package com.app.toaster.category.service;
 
-import com.app.toaster.category.controller.request.ChangeCateoryPriorityDto;
+import com.app.toaster.category.controller.request.ChangeCategoryPriorityDto;
 import com.app.toaster.category.controller.request.ChangeCateoryTitleDto;
 import com.app.toaster.category.controller.request.CreateCategoryDto;
 import com.app.toaster.category.controller.response.CategoriesResponse;
@@ -41,7 +41,7 @@ public class CategoryService {
 	private final CategoryRepository categoryRepository;
 	private final ToastRepository toastRepository;
 
-	private final static int MAX_CATERGORY_NUMBER = 15;
+	private final static int MAX_CATEGORY_NUMBER = 15;
 	private final TimerRepository timerRepository;
 
 	@Transactional
@@ -52,9 +52,8 @@ public class CategoryService {
 		val maxPriority = categoryRepository.findMaxPriorityByUser(presentUser);
 
 		val categoryNum = categoryRepository.countAllByUser(presentUser);
-		System.out.println(categoryNum);
 
-		if (categoryNum >= MAX_CATERGORY_NUMBER) {
+		if (categoryNum >= MAX_CATEGORY_NUMBER) {
 			throw new CustomException(Error.BAD_REQUEST_CREATE_CLIP_EXCEPTION,
 					Error.BAD_REQUEST_CREATE_CLIP_EXCEPTION.getMessage());
 		}
@@ -141,24 +140,26 @@ public class CategoryService {
 
 	//순서 업데이트
 	@Transactional
-	public void editCategoryPriority(ChangeCateoryPriorityDto changeCateoryPriorityDto) {
+	public void editCategoryPriority(ChangeCategoryPriorityDto changeCategoryPriorityDto) {
+		val newPriority = changeCategoryPriorityDto.newPriority();
 
-		val newPriority = changeCateoryPriorityDto.newPriority();
-
-		Category category = categoryRepository.findById(changeCateoryPriorityDto.categoryId())
-				.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
-						Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
+		Category category = categoryRepository.findById(changeCategoryPriorityDto.categoryId())
+			.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
+				Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
 
 		int currentPriority = category.getPriority();
-		category.updateCategoryPriority(changeCateoryPriorityDto.newPriority());
 
-		if (currentPriority < newPriority)
-			categoryRepository.decreasePriorityByOne(changeCateoryPriorityDto.categoryId(), currentPriority,
-					newPriority, category.getUser().getUserId());
-		else if (currentPriority > newPriority)
-			categoryRepository.increasePriorityByOne(changeCateoryPriorityDto.categoryId(), currentPriority,
-					newPriority, category.getUser().getUserId());
+		if (currentPriority < newPriority) {
+			categoryRepository.findAllByPriorityBetweenForUpdate(currentPriority, newPriority);
+			categoryRepository.decreasePriorityByOne(changeCategoryPriorityDto.categoryId(), currentPriority,
+				newPriority, category.getUser().getUserId());
+		} else {
+			categoryRepository.findAllByPriorityBetweenForUpdate(newPriority, currentPriority);
+			categoryRepository.increasePriorityByOne(changeCategoryPriorityDto.categoryId(), currentPriority,
+				newPriority, category.getUser().getUserId());
+		}
 
+		category.updateCategoryPriority(changeCategoryPriorityDto.newPriority());
 	}
 
 	@Transactional
