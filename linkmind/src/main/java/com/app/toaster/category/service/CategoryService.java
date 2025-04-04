@@ -141,23 +141,25 @@ public class CategoryService {
 	//순서 업데이트
 	@Transactional
 	public void editCategoryPriority(ChangeCategoryPriorityDto changeCategoryPriorityDto) {
-
 		val newPriority = changeCategoryPriorityDto.newPriority();
 
 		Category category = categoryRepository.findById(changeCategoryPriorityDto.categoryId())
-				.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
-						Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
+			.orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_CATEGORY_EXCEPTION,
+				Error.NOT_FOUND_CATEGORY_EXCEPTION.getMessage()));
 
 		int currentPriority = category.getPriority();
-		category.updateCategoryPriority(changeCategoryPriorityDto.newPriority());
 
-		if (currentPriority < newPriority)
+		if (currentPriority < newPriority) {
+			categoryRepository.findAllByPriorityBetweenForUpdate(currentPriority, newPriority);
 			categoryRepository.decreasePriorityByOne(changeCategoryPriorityDto.categoryId(), currentPriority,
-					newPriority, category.getUser().getUserId());
-		else if (currentPriority > newPriority)
+				newPriority, category.getUser().getUserId());
+		} else {
+			categoryRepository.findAllByPriorityBetweenForUpdate(newPriority, currentPriority);
 			categoryRepository.increasePriorityByOne(changeCategoryPriorityDto.categoryId(), currentPriority,
-					newPriority, category.getUser().getUserId());
+				newPriority, category.getUser().getUserId());
+		}
 
+		category.updateCategoryPriority(changeCategoryPriorityDto.newPriority());
 	}
 
 	@Transactional

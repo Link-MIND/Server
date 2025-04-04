@@ -9,11 +9,18 @@ import com.app.toaster.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.app.toaster.category.domain.Category;
+
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import jakarta.persistence.LockModeType;
+
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT c FROM Category c WHERE c.priority BETWEEN :minPriority AND :maxPriority")
+    List<Category> findAllByPriorityBetweenForUpdate(@Param("minPriority") int minPriority, @Param("maxPriority") int maxPriority);
 
     @Query("SELECT COALESCE(MAX(c.priority), 0) FROM Category c WHERE c.user = :user")
     int findMaxPriorityByUser(@Param("user") User user);
